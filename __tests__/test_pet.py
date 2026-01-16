@@ -1,7 +1,7 @@
 # 1 - bibliotecas
 import pytest                    # engine / framwork de teste de unidade
 import requests                  # framework de test de API
-import json
+import json                      # leitor e escritor de arquivos json
 
 # 2 - classe (Opcional no Python, em muitos casos)
 
@@ -45,6 +45,24 @@ def test_post_pet():
     assert response_body['category']['name'] == pet_category_name
     assert response_body['tags'][0]['name'] == pet_tag_name
 
+def test_get_pet():
+    # Configura
+    # Dados de Entrada e Saída / Resultado Esperado estão na sessão de atributos antes das funções
+
+    # Executa
+    response = requests.get(
+        url=f'{url}/{pet_id}',  # chama o endereço do get/consulta passando o codigo do animal
+        headers=headers
+        # não tem corpo de mensagem / body
+    )
 
 
+    # valida
+    response_body = response.json()        
+
+    assert response.status_code == 200
+    assert response_body['name'] == pet_name
+    assert response_body['category']['id'] == pet_category_id
+    assert response_body['tags'][0]['id'] == pet_tag_id
+    assert response_body['status'] == pet_status
 
